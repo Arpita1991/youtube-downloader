@@ -30,20 +30,18 @@ if (isset($_POST['q']) && isset($_POST['maxResults'])) {
 	
       switch ($searchResult['id']['kind']) {
         case 'youtube#video':
-		$videos .="
+        $videos .="
 			<div class='col s12 m6'>
 			<div class='card'>
 				<div class='card-image'>
 				<img src=".$searchResult['snippet']['thumbnails']['medium']['url'].">
-				<span class='card-title'>".$searchResult['snippet']['title']."</span>
 				<a class='btn-floating halfway-fab waves-effect waves-light red'>
-				<i class='material-icons'>add</i></a>
+				<i onClick=downloadfunc('".urlencode($searchResult['snippet']['title'])."','https://www.youtube.com/watch?v=".$searchResult['id']['videoId']."') class='material-icons'>get_app</i></a>
 				</div>
 				<div class='card-content'>
-				<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+				<p>".$searchResult['snippet']['title']."</p>
 				</div>
 			</div>
-			
 		</div>";
 
        //   $videos .= sprintf('<li>%s (%s)</li>',
@@ -112,6 +110,8 @@ END;
             </div>
         </div>
 
+      
+
         <div class="row">
             <div class="input-field col s12">
             <input id="max" type="number" id="maxResults" name="maxResults" min="1" max="50" step="1" placeholder="25">
@@ -127,12 +127,24 @@ END;
 
     <div class="row" id="searchlink">
          <form class="col s12" method="POST">
+            
             <div class="row">
                 <div class="input-field col s12">
                 <input id="url" type="text" name="urllink" placeholder="https://youtu.be/-KFUp7S6yn8">
                 <label for="url">Enter Url</label>
                 </div>
             </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <select name="type">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="1">Video</option>
+                <option value="2">Audio</option>
+                </select>
+                <label>Select Type</label>
+            </div>
+            </div>
+            
             <button class="waves-effect waves-light btn-large" type="submit" value="SearchURL">Submit
                
             </button>
