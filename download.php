@@ -48,14 +48,14 @@
     </form>
   </div>
 
-
- <div class="form-group">
- <label>Youtube Link : </label>
+	
+<div class="form-group">
+<label>Youtube Link : </label>
 <input type="text" class="form-control" name="search_video" placeholder="Youtube link">
- </div>
+</div>
 <div class="form-group">
 <label class="checkbox">Options :</label>
- <input type="checkbox"  name="type" value="audio">Audio<br>
+<input type="checkbox"  name="type" value="audio">Audio<br>
 <input type="checkbox"  name="type" value="video">Video 
 </div>
 <div class="form-group">
