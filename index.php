@@ -3,23 +3,24 @@ require_once __DIR__ . '/vendor/autoload.php';
 session_start();
 ob_start();
 
-if (isset($_POST['q']) && isset($_POST['maxResults'])) {
+
+if(isset($_POST['Search']) == 'Search'){
+
+if (($_POST['q'] != '') && ($_POST['maxResults'] != '')) {
 
    $DEVELOPER_KEY = 'AIzaSyBmURKPcwzF5qxK6YImn2Tmh6ydphYRmfo';
 
   $client = new Google_Client();
   $client->setDeveloperKey($DEVELOPER_KEY);
-
  
   $youtube = new Google_Service_YouTube($client);
 
   $htmlBody = '';
   try {
-
    
     $searchResponse = $youtube->search->listSearch('id,snippet', array(
-      'q' => $_GET['q'],
-      'maxResults' => $_GET['maxResults'],
+      'q' => $_POST['q'],
+      'maxResults' => $_POST['maxResults'],
     ));
 
     $videos = '';
@@ -36,10 +37,10 @@ if (isset($_POST['q']) && isset($_POST['maxResults'])) {
 				<div class='card-image'>
 				<img src=".$searchResult['snippet']['thumbnails']['medium']['url'].">
 				<a class='btn-floating halfway-fab waves-effect waves-light red'>
-				<i onClick=downloadfunc('".urlencode($searchResult['snippet']['title'])."','https://www.youtube.com/watch?v=".$searchResult['id']['videoId']."') class='material-icons'>get_app</i></a>
+				<i onClick=downloadfunc('".base64_encode($searchResult['snippet']['title'])."','https://www.youtube.com/watch?v=".$searchResult['id']['videoId']."') class='material-icons'>get_app</i></a>
 				</div>
 				<div class='card-content'>
-				<p>".$searchResult['snippet']['title']."</p>
+				<p>".substr($searchResult['snippet']['title'], 0, 70)."</p>
 				</div>
 			</div>
 		</div>";
@@ -63,7 +64,7 @@ END;
   }
 }
 
-
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,17 +111,15 @@ END;
             </div>
         </div>
 
-      
-
         <div class="row">
             <div class="input-field col s12">
             <input id="max" type="number" id="maxResults" name="maxResults" min="1" max="50" step="1" placeholder="25">
             <label for="max">Enter Max Results</label>
             </div>
         </div>
-          <button class="waves-effect waves-light btn-large" type="submit" value="Search">Submit
+          <input type="submit" value="Search" name="Search">
             
-        </button>
+   
 
         </form>
     </div>
@@ -155,7 +154,11 @@ END;
   </div>
 <div class="container">
  
-<?=$htmlBody?>
+<?php
+
+print isset($htmlBody) ? $htmlBody : '';
+
+?>
 
 </div>
 <footer class="page-footer orange">
@@ -199,8 +202,7 @@ END;
  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-
-    <script src="js/custom.js"></script>
+<script src="js/custom.js"></script>
   </body></html>
 
 
